@@ -408,3 +408,160 @@ body {
     flex-direction: column;
   }
 }
+
+.edu-container {
+  padding: 20px;
+}
+
+.edu-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.edu-title {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.edu-desc {
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #1976d2;
+  color: white;
+}
+
+/* CONTENT */
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* CARD ITEM */
+.card-item {
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.card-item h3 {
+  margin: 0;
+}
+
+.card-item p {
+  font-size: 14px;
+  color: #555;
+}
+
+.meta {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+  color: gray;
+}
+
+.tag {
+  background: #e3f2fd;
+  padding: 3px 6px;
+  border-radius: 5px;
+}
+
+/* VIDEO */
+.video-card {
+  display: flex;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.video-thumb {
+  position: relative;
+  width: 150px;
+}
+
+.video-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  color: white;
+}
+
+.duration {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background: black;
+  color: white;
+  font-size: 10px;
+  padding: 2px 5px;
+}
+
+.video-info {
+  padding: 10px;
+}
+
+/* BUTTON */
+.btn-outline {
+  border: 1px solid #333;
+  background: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* TIPS */
+.tips-card {
+  margin-top: 20px;
+  padding: 15px;
+  background: #e8f5e9;
+  border-radius: 10px;
+}
+
+.tips-card ul {
+  padding-left: 15px;
+}
+
+.tips-card li {
+  margin-bottom: 5px;
+}
+
+/* ICON */
+.icon {
+  width: 20px;
+}
+
+.gray {
+  color: gray;
+}
