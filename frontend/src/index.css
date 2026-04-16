@@ -138,3 +138,125 @@ body {
   width: 14px;
   height: 14px;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7f6;
+}
+
+.scanner-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  margin: auto;
+}
+
+.scanner-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.scanner-header p {
+  color: #666;
+}
+
+.upload-box {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.upload-box img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.upload-label {
+  cursor: pointer;
+}
+
+.upload-icon {
+  width: 40px;
+  height: 40px;
+  color: #aaa;
+}
+
+.change-text {
+  color: blue;
+  cursor: pointer;
+  display: block;
+  margin-top: 10px;
+}
+
+.scan-btn {
+  width: 100%;
+  padding: 10px;
+  background: green;
+  color: white;
+  border: none;
+  margin-top: 15px;
+  cursor: pointer;
+}
+
+.scan-btn:disabled {
+  background: gray;
+}
+
+.progress-box {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.progress-bar {
+  height: 6px;
+  background: green;
+  width: 70%;
+  margin: auto;
+}
+
+.result-box {
+  margin-top: 20px;
+  border-top: 1px solid #ddd;
+  padding-top: 15px;
+}
+
+.status {
+  padding: 10px;
+  background: #e0f2e9;
+  margin-bottom: 10px;
+}
+
+.recommendation {
+  background: #e3f2fd;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.reset-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+.green {
+  color: green;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
