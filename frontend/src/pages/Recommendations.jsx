@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Sprout, TrendingUp, AlertCircle, CheckCircle } from "lucide-react";
-import "./index.css";
+
 
 export default function CropRecommendations() {
   const [activeTab, setActiveTab] = useState("recommended");

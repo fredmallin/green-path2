@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Leaf, Mail, Lock } from "lucide-react";
-import "./index.css";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase"; // adjust path if needed
 
 export function Login({ onSuccess, onSwitchToRegister }) {
   const [formData, setFormData] = useState({
@@ -10,11 +11,6 @@ export function Login({ onSuccess, onSwitchToRegister }) {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // Fake login (replace with your real auth)
-  const login = async (email, password) => {
-    return email === "test@test.com" && password === "123456";
-  };
 
   const handleChange = (e) => {
     setFormData({
@@ -35,14 +31,32 @@ export function Login({ onSuccess, onSwitchToRegister }) {
       return;
     }
 
-    const success = await login(formData.email, formData.password);
+    try {
+      // 🔥 REAL FIREBASE LOGIN
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
 
-    setLoading(false);
+      console.log("Logged in user:", userCredential.user.email);
 
-    if (success) {
-      onSuccess();
-    } else {
-      setError("Invalid email or password. Please try again.");
+      setLoading(false);
+      onSuccess(); // move to app/dashboard
+
+    } catch (err) {
+      setLoading(false);
+
+      // Firebase error messages
+      if (err.code === "auth/user-not-found") {
+        setError("No account found with this email.");
+      } else if (err.code === "auth/wrong-password") {
+        setError("Incorrect password.");
+      } else if (err.code === "auth/invalid-email") {
+        setError("Invalid email format.");
+      } else {
+        setError("Login failed. Try again.");
+      }
     }
   };
 

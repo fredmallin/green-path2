@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Camera, Upload, Loader2 } from "lucide-react";
-import "./index.css";
+
 
 export default function CropScanner({ onScanComplete }) {
   const [isScanning, setIsScanning] = useState(false);

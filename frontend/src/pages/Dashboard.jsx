@@ -10,19 +10,21 @@ import {
   LogOut
 } from "lucide-react";
 
-import "./index.css";
-
 import SoilScanner from "./SoilScanner";
 import CropScanner from "./CropScanner";
-import WeatherWidget from "./WeatherWidget";
+import { WeatherWidget } from "../components/WeatherWidget";
 import Recommendations from "./Recommendations";
-import ScanHistory from "./ScanHistory";
-import CropRecommendations from "./CropRecommendations";
+import { ScanHistory } from "./ScanHistory";
 import EducationResources from "./EducationResources";
 import ScanDetailDialog from "./ScanDetailDialog";
 import FarmAssistChat from "./FarmAssistChat";
 
-export default function Dashboard({ onBack, onLogout, user }) {
+
+import { useAuth } from "../contexts/AuthContext";
+
+export default function Dashboard({ onBack, onLogout }) {
+  const { user, profile, logout } = useAuth();
+
   const [scanHistory, setScanHistory] = useState([]);
   const [activeSection, setActiveSection] = useState("scanner");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -43,12 +45,15 @@ export default function Dashboard({ onBack, onLogout, user }) {
     { id: "education", label: "Learn", icon: BookOpen }
   ];
 
+  const displayName = profile?.name || user?.email;
+
   return (
     <div className="dashboard">
+
       {/* HEADER */}
       <header className="header">
         <div className="header-inner">
-          
+
           <div className="logo-section">
             <button className="btn ghost hide-mobile" onClick={onBack}>
               <ArrowLeft /> Back
@@ -61,7 +66,6 @@ export default function Dashboard({ onBack, onLogout, user }) {
             </div>
           </div>
 
-          {/* MOBILE MENU */}
           <button
             className="btn ghost show-mobile"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -69,23 +73,21 @@ export default function Dashboard({ onBack, onLogout, user }) {
             {mobileMenuOpen ? <X /> : <Menu />}
           </button>
 
-          {/* DESKTOP NAV */}
           <nav className="nav hide-mobile">
             {navigationItems.map((item) => (
               <button
                 key={item.id}
-                className={
-                  activeSection === item.id
-                    ? "btn active"
-                    : "btn ghost"
-                }
+                className={activeSection === item.id ? "btn active" : "btn ghost"}
                 onClick={() => setActiveSection(item.id)}
               >
                 <item.icon /> {item.label}
               </button>
             ))}
 
-            <button className="btn logout" onClick={onLogout}>
+            <button
+              className="btn logout"
+              onClick={logout}
+            >
               <LogOut /> Logout
             </button>
           </nav>
@@ -94,6 +96,7 @@ export default function Dashboard({ onBack, onLogout, user }) {
         {/* MOBILE NAV */}
         {mobileMenuOpen && (
           <div className="mobile-nav">
+
             {navigationItems.map((item) => (
               <button
                 key={item.id}
@@ -107,37 +110,34 @@ export default function Dashboard({ onBack, onLogout, user }) {
               </button>
             ))}
 
-            <button className="btn ghost full" onClick={onBack}>
-              <ArrowLeft /> Back
-            </button>
-
-            <button className="btn logout full" onClick={onLogout}>
+            <button className="btn logout full" onClick={logout}>
               <LogOut /> Logout
             </button>
+
           </div>
         )}
       </header>
 
       {/* MAIN */}
       <main className="main">
-        
+
         {/* WELCOME */}
         {user && (
           <div className="welcome">
-            <h2>Welcome back, {user.name} 👋</h2>
+            <h2>Welcome back, {displayName} 👋</h2>
             <p>
-              {user.farmName || "Start scanning your crops"}{" "}
-              {user.location && `• ${user.location}`}
+              {profile?.farmName || "Start scanning your crops"}
+              {profile?.location && ` • ${profile.location}`}
             </p>
           </div>
         )}
 
-        {/* SCANNER SECTION */}
+        {/* SCANNER */}
         {activeSection === "scanner" && (
           <div className="grid">
-            
+
             <div className="left">
-              {/* Tabs */}
+
               <div className="tabs">
                 <button
                   className={activeTab === "soil" ? "tab active" : "tab"}
@@ -170,13 +170,14 @@ export default function Dashboard({ onBack, onLogout, user }) {
 
             <div className="right">
               <WeatherWidget />
-              <Recommendations history={scanHistory} />
             </div>
+
           </div>
         )}
 
-        {activeSection === "crops" && <CropRecommendations />}
+        {activeSection === "crops" && <Recommendations />}
         {activeSection === "education" && <EducationResources />}
+
       </main>
 
       {/* MODAL */}
@@ -186,6 +187,7 @@ export default function Dashboard({ onBack, onLogout, user }) {
       />
 
       <FarmAssistChat />
+
     </div>
   );
 }

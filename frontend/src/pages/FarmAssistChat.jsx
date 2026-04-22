@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { MessageCircle, X, Mic, Send, MicOff, Volume2 } from "lucide-react";
-import "./index.css";
 
 export default function FarmAssistChat() {
   const [isOpen, setIsOpen] = useState(false);
+
   const [messages, setMessages] = useState([
     {
       id: "welcome",
@@ -36,13 +36,14 @@ export default function FarmAssistChat() {
     }
   }, []);
 
-  // Scroll down
+  // Scroll chat
   useEffect(() => {
     if (chatRef.current) {
       chatRef.current.scrollTop = chatRef.current.scrollHeight;
     }
   }, [messages, isTyping]);
 
+  // 🎤 Toggle voice
   const toggleVoice = () => {
     if (!recognitionRef.current) {
       alert("Use Chrome or Edge for voice");
@@ -58,17 +59,8 @@ export default function FarmAssistChat() {
     setIsListening(!isListening);
   };
 
-  const generateResponse = (msg) => {
-    if (msg.toLowerCase().includes("maize")) {
-      return "Plant maize at the start of rains and use fertilizer after 3 weeks.";
-    }
-    if (msg.toLowerCase().includes("soil")) {
-      return "Improve soil using compost and crop rotation.";
-    }
-    return "I can help with crops, soil, livestock, and farming tips.";
-  };
-
-  const sendMessage = () => {
+  // 🚀 SEND MESSAGE TO GEMINI BACKEND
+  const sendMessage = async () => {
     if (!inputValue.trim()) return;
 
     const userMsg = {
@@ -79,20 +71,44 @@ export default function FarmAssistChat() {
     };
 
     setMessages((prev) => [...prev, userMsg]);
+    const currentInput = inputValue;
     setInputValue("");
     setIsTyping(true);
 
-    setTimeout(() => {
+    try {
+      // 🔥 CALL YOUR BACKEND (Gemini)
+      const res = await fetch("http://localhost:5000/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          message: currentInput,
+        }),
+      });
+
+      const data = await res.json();
+
       const botMsg = {
         id: Date.now().toString(),
-        text: generateResponse(inputValue),
+        text: data.reply || "No response from AI",
         sender: "assistant",
         timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, botMsg]);
-      setIsTyping(false);
-    }, 1200);
+    } catch (error) {
+      const errorMsg = {
+        id: Date.now().toString(),
+        text: "⚠️ Error connecting to AI server",
+        sender: "assistant",
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, errorMsg]);
+    }
+
+    setIsTyping(false);
   };
 
   return (
@@ -116,6 +132,7 @@ export default function FarmAssistChat() {
                 <p>AI Helper</p>
               </div>
             </div>
+
             <button onClick={() => setIsOpen(false)}>
               <X />
             </button>
@@ -138,9 +155,7 @@ export default function FarmAssistChat() {
               </div>
             ))}
 
-            {isTyping && (
-              <div className="msg bot typing">Typing...</div>
-            )}
+            {isTyping && <div className="msg bot typing">Typing...</div>}
           </div>
 
           {/* INPUT */}
@@ -153,6 +168,7 @@ export default function FarmAssistChat() {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Ask something..."
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             />
 
             <button onClick={sendMessage}>

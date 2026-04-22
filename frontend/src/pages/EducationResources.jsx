@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BookOpen, Video, FileText, ExternalLink } from "lucide-react";
-import "./index.css";
+
 
 export default function EducationResources() {
   const [activeTab, setActiveTab] = useState("articles");
@@ -133,7 +133,7 @@ export default function EducationResources() {
 
       {/* QUICK TIPS */}
       <div className="tips-card">
-        <h3>💡 Quick Farming Tips</h3>
+        <h3> Quick Farming Tips</h3>
         <ul>
           <li>Test your soil every season</li>
           <li>Inspect crops early morning</li>

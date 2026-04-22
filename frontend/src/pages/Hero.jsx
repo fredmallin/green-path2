@@ -106,25 +106,31 @@ export default function Hero({ onGetStarted, onLogin }) {
             Make smarter farming decisions with AI-powered insights on soil health, crop conditions, and climate risks
           </p>
 
-          {/* Feature cards */}
+          {/* Feature cards — gridAutoRows: "1fr" forces ALL cells to equal height */}
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, 1fr)",
+            gridAutoRows: "1fr",
             gap: 16,
             maxWidth: 820,
-            margin: "0 auto 40px"
+            margin: "0 auto 40px",
           }}>
             {features.map((f, i) => (
               <div key={i} style={{
                 background: "rgba(255,255,255,0.1)",
                 border: "1px solid rgba(255,255,255,0.18)",
                 borderRadius: 12,
-                padding: "24px 20px",
-                textAlign: "center"
+                padding: "24px 16px",
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                minHeight: 160
               }}>
-                <f.icon size={32} color="#4ade80" style={{ marginBottom: 10 }} />
-                <h3 style={{ fontSize: 17, fontWeight: 700, margin: "0 0 8px", color: "white" }}>{f.title}</h3>
-                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.78)", margin: 0 }}>{f.description}</p>
+                <f.icon size={32} color="#4ade80" style={{ marginBottom: 10, flexShrink: 0 }} />
+                <h3 style={{ fontSize: 16, fontWeight: 700, margin: "0 0 8px", color: "white", lineHeight: 1.3 }}>{f.title}</h3>
+                <p style={{ fontSize: 13, color: "rgba(255,255,255,0.78)", margin: 0, lineHeight: 1.5 }}>{f.description}</p>
               </div>
             ))}
           </div>
@@ -173,7 +179,7 @@ export default function Hero({ onGetStarted, onLogin }) {
         <h2>Problems We Solve</h2>
         <div className="problem-grid">
           {problems.map((p, i) => (
-            <div key={i} className="problem-card">✗ {p}</div>
+            <div key={i} className="problem-card">{p}</div>
           ))}
         </div>
         <div className="cta-box">

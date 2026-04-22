@@ -1,7 +1,6 @@
 import React from "react";
-import "./index.css";
 
-export function ScanDetailDialog({ scan, onClose }) {
+export default function ScanDetailDialog({ scan, onClose }) {
   if (!scan) return null;
 
   const formatDate = (dateString) => {
@@ -17,7 +16,10 @@ export function ScanDetailDialog({ scan, onClose }) {
   };
 
   const getStatusClass = () => {
-    if (scan.analysis.status.includes("Healthy") || scan.analysis.status.includes("Good")) {
+    if (
+      scan.analysis.status.includes("Healthy") ||
+      scan.analysis.status.includes("Good")
+    ) {
       return "status success";
     } else if (scan.analysis.status.includes("Disease")) {
       return "status danger";
@@ -35,38 +37,34 @@ export function ScanDetailDialog({ scan, onClose }) {
   return (
     <div className="dialog-overlay">
       <div className="dialog">
-        
-        {/* Header */}
         <div className="dialog-header">
           <h2>
-            {scan.type === "soil" ? "🌱 Soil Scan Details" : "📷 Crop Scan Details"}
+            {scan.type === "soil"
+              ? " Soil Scan Details"
+              : " Crop Scan Details"}
           </h2>
-          <button className="close-btn" onClick={onClose}>✖</button>
+          <button className="close-btn" onClick={onClose}>
+            ✖
+          </button>
         </div>
 
-        {/* Date */}
         <div className="scan-meta">
-          📅 {formatDate(scan.date)}
+           {formatDate(scan.date)}
           <span className="badge outline">
             {scan.type === "soil" ? "Soil Analysis" : "Crop Analysis"}
           </span>
         </div>
 
-        {/* Image */}
-        <img
-          src={scan.imageUrl}
-          alt="scan"
-          className="scan-image"
-        />
+        <img src={scan.imageUrl} alt="scan" className="scan-image" />
 
-        {/* Status */}
         <div className={getStatusClass()}>
           <h3>{scan.analysis.status}</h3>
         </div>
 
-        {/* Details */}
         <div className="section">
-          <h3>{scan.type === "soil" ? "Soil Analysis" : "Crop Analysis"}</h3>
+          <h3>
+            {scan.type === "soil" ? "Soil Analysis" : "Crop Analysis"}
+          </h3>
           <ul>
             {scan.analysis.details.map((detail, i) => (
               <li key={i}>• {detail}</li>
@@ -74,7 +72,6 @@ export function ScanDetailDialog({ scan, onClose }) {
           </ul>
         </div>
 
-        {/* Recommendations */}
         <div className="section">
           <h3>Recommendations</h3>
           {scan.analysis.recommendations.map((rec, i) => (
@@ -84,12 +81,11 @@ export function ScanDetailDialog({ scan, onClose }) {
           ))}
         </div>
 
-        {/* Suitable Crops */}
         {scan.type === "soil" &&
           scan.analysis.suitableCrops &&
           scan.analysis.suitableCrops.length > 0 && (
             <div className="crops">
-              <h3>🌿 Suitable Crops</h3>
+              <h3> Suitable Crops</h3>
 
               {scan.analysis.suitableCrops.map((crop, i) => (
                 <div key={i} className="crop-card">

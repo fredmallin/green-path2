@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Leaf, User, Mail, Lock, Phone, MapPin, Home } from "lucide-react";
-import "./index.css";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../firebase";
 
 export function Register({ onSuccess, onSwitchToLogin }) {
   const [formData, setFormData] = useState({
@@ -17,11 +19,6 @@ export function Register({ onSuccess, onSwitchToLogin }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  // Fake register (replace with Firebase later)
-  const register = async (data) => {
-    return true;
-  };
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -35,6 +32,7 @@ export function Register({ onSuccess, onSwitchToLogin }) {
     setError("");
     setLoading(true);
 
+    // VALIDATION
     if (!formData.name || !formData.email || !formData.password) {
       setError("Please fill in all required fields");
       setLoading(false);
@@ -53,24 +51,47 @@ export function Register({ onSuccess, onSwitchToLogin }) {
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setError("Please enter a valid email address");
+    try {
+      // 🔥 1. CREATE AUTH USER
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        formData.email,
+        formData.password
+      );
+
+      const user = userCredential.user;
+
+      // 📦 2. STORE EXTRA DATA IN FIRESTORE
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || "",
+        farmName: formData.farmName || "",
+        location: formData.location || "",
+        createdAt: new Date(),
+      });
+
       setLoading(false);
-      return;
-    }
-
-    const success = await register(formData);
-
-    setLoading(false);
-
-    if (success) {
       setSuccess(true);
+
       setTimeout(() => {
-        onSuccess();
+        onSuccess(); // redirect to login/dashboard
       }, 2000);
-    } else {
-      setError("Email already registered.");
+
+    } catch (err) {
+      setLoading(false);
+
+      // ERROR HANDLING
+      if (err.code === "auth/email-already-in-use") {
+        setError("Email already registered.");
+      } else if (err.code === "auth/invalid-email") {
+        setError("Invalid email address.");
+      } else if (err.code === "auth/weak-password") {
+        setError("Password is too weak.");
+      } else {
+        setError("Registration failed. Try again.");
+      }
     }
   };
 
@@ -84,7 +105,7 @@ export function Register({ onSuccess, onSwitchToLogin }) {
           </div>
           <h2>Registration Successful!</h2>
           <p>Welcome to Greenpath, {formData.name}!</p>
-          <small>Redirecting to login...</small>
+          <small>Redirecting...</small>
         </div>
       </div>
     );
@@ -107,7 +128,7 @@ export function Register({ onSuccess, onSwitchToLogin }) {
 
           {error && <div className="error-box">{error}</div>}
 
-          {/* Name */}
+          {/* NAME */}
           <div className="form-group">
             <label>Full Name *</label>
             <div className="input-wrapper">
@@ -115,14 +136,13 @@ export function Register({ onSuccess, onSwitchToLogin }) {
               <input
                 type="text"
                 name="name"
-                placeholder="John Doe"
                 value={formData.name}
                 onChange={handleChange}
               />
             </div>
           </div>
 
-          {/* Email */}
+          {/* EMAIL */}
           <div className="form-group">
             <label>Email *</label>
             <div className="input-wrapper">
@@ -130,14 +150,13 @@ export function Register({ onSuccess, onSwitchToLogin }) {
               <input
                 type="email"
                 name="email"
-                placeholder="john@example.com"
                 value={formData.email}
                 onChange={handleChange}
               />
             </div>
           </div>
 
-          {/* Password */}
+          {/* PASSWORD */}
           <div className="form-group">
             <label>Password *</label>
             <div className="input-wrapper">
@@ -145,14 +164,13 @@ export function Register({ onSuccess, onSwitchToLogin }) {
               <input
                 type="password"
                 name="password"
-                placeholder="••••••••"
                 value={formData.password}
                 onChange={handleChange}
               />
             </div>
           </div>
 
-          {/* Confirm Password */}
+          {/* CONFIRM PASSWORD */}
           <div className="form-group">
             <label>Confirm Password *</label>
             <div className="input-wrapper">
@@ -160,52 +178,48 @@ export function Register({ onSuccess, onSwitchToLogin }) {
               <input
                 type="password"
                 name="confirmPassword"
-                placeholder="••••••••"
                 value={formData.confirmPassword}
                 onChange={handleChange}
               />
             </div>
           </div>
 
-          {/* Phone */}
+          {/* PHONE */}
           <div className="form-group">
-            <label>Phone (Optional)</label>
+            <label>Phone(optional)</label>
             <div className="input-wrapper">
               <Phone className="input-icon" />
               <input
                 type="text"
                 name="phone"
-                placeholder="+1234567890"
                 value={formData.phone}
                 onChange={handleChange}
               />
             </div>
           </div>
 
-          {/* Farm Name */}
+          {/* FARM NAME */}
           <div className="form-group">
-            <label>Farm Name (Optional)</label>
+            <label>Farm Name(optional)</label>
             <div className="input-wrapper">
               <Home className="input-icon" />
               <input
                 type="text"
                 name="farmName"
-                placeholder="Green Valley Farm"
                 value={formData.farmName}
                 onChange={handleChange}
               />
             </div>
           </div>
 
-          {/* Location */}
+          {/* LOCATION */}
           <div className="form-group">
-            <label>Location (Optional)</label>
+            <label>Location(Optional)</label>
             <div className="input-wrapper">
               <MapPin className="input-icon" />
               <input
                 type="text"
                 name="location"
-                placeholder="City, Country"
                 value={formData.location}
                 onChange={handleChange}
               />
