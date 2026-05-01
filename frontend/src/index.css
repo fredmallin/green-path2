@@ -2309,7 +2309,7 @@ section {
 
 /* =============== HERO SECTION ================ */
 
-/* overlay text smooth look already inline, so */
+/* overlay text smooth look already inline, */
 button {
   transition: 0.3s ease;
 }
