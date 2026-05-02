@@ -30,7 +30,7 @@ export function WeatherWidget() {
                  ${geoData.address.country || ""}`
               : "Unknown Location";
 
-          // 🌦 2. WEATHER DATA (OPEN-ME
+          // 🌦 2. WEATHER DATA (OPEN-M
           const weatherRes = await fetch(
             `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_mean&timezone=auto`
           );
