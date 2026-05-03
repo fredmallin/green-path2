@@ -10,12 +10,12 @@ function AppContent() {
   const { isAuthenticated, loading } = useAuth();
   const [view, setView] = useState("hero");
 
-  //  Wait for Firebas
+  //  Wait for Firebase to load auth state
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // 🔥 If logged in → ALWAYS show dashboard
+  //  If logged in → ALWAYS show dashboard
   if (isAuthenticated) {
     return (
       <Dashboard
