@@ -52,7 +52,7 @@ export function Register({ onSuccess, onSwitchToLogin }) {
     }
 
     try {
-      // 🔥 1. CREATE AUT
+      // 🔥 1. CREATE A
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         formData.email,
