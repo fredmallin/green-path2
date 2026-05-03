@@ -10,7 +10,7 @@ function AppContent() {
   const { isAuthenticated, loading } = useAuth();
   const [view, setView] = useState("hero");
 
-  // 🔥 Wait for Firebase to load 
+  // 🔥 Wait for Firebase to loa
   if (loading) {
     return <div>Loading...</div>;
   }
