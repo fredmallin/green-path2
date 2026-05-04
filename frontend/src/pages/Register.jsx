@@ -61,7 +61,7 @@ export function Register({ onSuccess, onSwitchToLogin }) {
 
       const user = userCredential.user;
 
-      //  2. STORE E
+      //  2. STORE
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         name: formData.name,
