@@ -76,7 +76,7 @@ export function Register({ onSuccess, onSwitchToLogin }) {
       setSuccess(true);
 
       setTimeout(() => {
-        onSuccess(); // redirect to login/dashboar
+        onSuccess(); // redirect to login/dashboa
       }, 2000);
 
     } catch (err) {
