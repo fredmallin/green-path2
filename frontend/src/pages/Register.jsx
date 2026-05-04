@@ -76,7 +76,7 @@ export function Register({ onSuccess, onSwitchToLogin }) {
       setSuccess(true);
 
       setTimeout(() => {
-        onSuccess(); // 
+        onSuccess(); 
       }, 2000);
 
     } catch (err) {
