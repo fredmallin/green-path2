@@ -124,7 +124,7 @@ export default function Dashboard({ onBack, onLogout }) {
         {/* WELCOME */}
         {user && (
           <div className="welcome">
-            <h2>Welcome back, {displayName} 👋</h2>
+            <h2>Welcome back, {displayName} </h2>
             <p>
               {profile?.farmName || "Start scanning your crops"}
               {profile?.location && ` • ${profile.location}`}

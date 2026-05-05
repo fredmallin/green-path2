@@ -7,7 +7,7 @@ export default function FarmAssistChat() {
   const [messages, setMessages] = useState([
     {
       id: "welcome",
-      text: "Hello! I'm FarmAssist AI 🌱. How can I help you today?",
+      text: "Hello! I'm FarmAssist AI . How can I help you today?",
       sender: "assistant",
       timestamp: new Date(),
     },
