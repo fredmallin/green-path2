@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Leaf, Mail, Lock } from "lucide-react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase"; // adjust path if nee
+import { auth } from "../firebase"; // adjust path if ne
 
 export function Login({ onSuccess, onSwitchToRegister }) {
   const [formData, setFormData] = useState({
