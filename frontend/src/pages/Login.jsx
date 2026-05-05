@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Leaf, Mail, Lock } from "lucide-react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebase"; // adjus
+import { auth } from "../firebase"; // adju
 
 export function Login({ onSuccess, onSwitchToRegister }) {
   const [formData, setFormData] = useState({
