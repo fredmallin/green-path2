@@ -24,7 +24,7 @@ export function Login({ onSuccess, onSwitchToRegister }) {
     e.preventDefault();
     setError("");
     setLoading(true);
-
+// Basic validation
     if (!formData.email || !formData.password) {
       setError("Please enter both email and password");
       setLoading(false);
@@ -32,7 +32,8 @@ export function Login({ onSuccess, onSwitchToRegister }) {
     }
 
     try {
-      // 🔥 REAL FIREBASE LOGINsignInWithEmailAndPassword(
+      // Firebase authentication
+      const userCredential = await signInWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
@@ -41,7 +42,7 @@ export function Login({ onSuccess, onSwitchToRegister }) {
       console.log("Logged in user:", userCredential.user.email);
 
       setLoading(false);
-      onSuccess(); // move to app/dashboard
+      onSuccess(); // move to app/dashboar
 
     } catch (err) {
       setLoading(false);
