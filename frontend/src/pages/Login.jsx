@@ -42,7 +42,7 @@ export function Login({ onSuccess, onSwitchToRegister }) {
       console.log("Logged in user:", userCredential.user.email);
 
       setLoading(false);
-      onSuccess(); // move to
+      onSuccess(); // move 
 
     } catch (err) {
       setLoading(false);
