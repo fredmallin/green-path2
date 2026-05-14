@@ -24,7 +24,7 @@ export function Login({ onSuccess, onSwitchToRegister }) {
     e.preventDefault();
     setError("");
     setLoading(true);
-// Basic validatio
+// Basic validati
     if (!formData.email || !formData.password) {
       setError("Please enter both email and password");
       setLoading(false);
