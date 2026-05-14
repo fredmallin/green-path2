@@ -32,8 +32,7 @@ export function Login({ onSuccess, onSwitchToRegister }) {
     }
 
     try {
-      // 🔥 REAL FIREBASE LOGIN
-      const userCredential = await signInWithEmailAndPassword(
+      // 🔥 REAL FIREBASE LOGINsignInWithEmailAndPassword(
         auth,
         formData.email,
         formData.password
