@@ -42,7 +42,7 @@ export function Login({ onSuccess, onSwitchToRegister }) {
       console.log("Logged in user:", userCredential.user.email);
 
       setLoading(false);
-      onSuccess(); // move to app/dashb
+      onSuccess(); // move to app/das
 
     } catch (err) {
       setLoading(false);
