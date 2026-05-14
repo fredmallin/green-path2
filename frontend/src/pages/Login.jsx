@@ -32,7 +32,7 @@ export function Login({ onSuccess, onSwitchToRegister }) {
     }
 
     try {
-      // Firebase authentication
+      // Firebase authenticatio
       const userCredential = await signInWithEmailAndPassword(
         auth,
         formData.email,
